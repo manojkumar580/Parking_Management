@@ -1,0 +1,355 @@
+<div class="welcome-section">
+  <h2>Welcome, {{ userName }} 👋</h2>
+
+  <p>
+    What would you like to do today?
+  </p>
+</div>
+
+
+<div class="parking-section">
+
+  <div class="section-header">
+    <div>
+      <h2>Parking Spaces</h2>
+      <p>Available parking spaces in the facility</p>
+    </div>
+  </div>
+
+
+  <div *ngIf="isLoadingParkingSpaces"
+       class="loading-message">
+
+    Loading parking spaces...
+
+  </div>
+
+
+  <div *ngIf="parkingSpaceError"
+       class="error-message">
+
+    {{ parkingSpaceError }}
+
+  </div>
+
+
+  <div *ngIf="!isLoadingParkingSpaces &&
+           !parkingSpaceError &&
+           parkingSpaces.length === 0"
+       class="empty-message">
+
+    No parking spaces found.
+
+  </div>
+
+  <div *ngIf="bookingSuccess"
+       class="success-message">
+
+    {{ bookingSuccess }}
+
+  </div>
+
+  <div *ngIf="bookingError"
+       class="error-message">
+
+    {{ bookingError }}
+
+  </div>
+  <div *ngIf="subscriptionSuccess"
+       class="success-message">
+
+    {{ subscriptionSuccess }}
+
+  </div>
+
+  <div *ngIf="subscriptionError"
+       class="error-message">
+
+    {{ subscriptionError }}
+
+  </div>
+  <div *ngIf="parkingSpaces.length > 0"
+       class="parking-grid">
+
+    <div class="parking-card"
+         *ngFor="let space of parkingSpaces">
+
+      <div class="parking-card-header">
+
+        <h3>
+          {{ space.spaceNumber }}
+        </h3>
+
+        <span class="status"
+              [class.available]="space.status === 'Available'"
+              [class.occupied]="space.status === 'Occupied'"
+              [class.reserved]="space.status === 'Reserved'"
+              [class.inactive]="space.status === 'Inactive'">
+
+          {{ space.status }}
+
+        </span>
+
+      </div>
+
+      <div class="parking-details">
+
+        <p>
+          <strong>Type:</strong>
+
+          {{
+            space.spaceType === 1
+              ? 'Two Wheeler'
+              : 'Four Wheeler'
+          }}
+        </p>
+
+      </div>
+      <div class="parking-actions">
+        <button type="button"
+                [disabled]="
+    space.status !== 'Available' ||
+    bookingInProgressSpaceId === space.id
+  "
+                (click)="bookParkingSpace(space.id)">
+
+          {{
+    bookingInProgressSpaceId === space.id
+      ? 'Booking...'
+      : space.status === 'Available'
+        ? 'Book Now'
+        : space.status
+          }}
+
+        </button>
+        <button type="button"
+                [disabled]="
+    space.status !== 'Available' ||
+    subscriptionInProgressSpaceId === space.id
+  "
+                (click)="createSubscription(space.id)">
+
+          {{
+    subscriptionInProgressSpaceId === space.id
+      ? 'Subscribing...'
+      : space.status === 'Available'
+        ? 'Subscribe'
+        : space.status
+          }}
+
+        </button>
+
+      </div>
+      </div>
+
+    </div>
+
+</div>
+
+<div class="bookings-section">
+
+  <div class="section-header">
+    <div>
+      <h2>My Bookings</h2>
+      <p>Your parking booking history</p>
+    </div>
+  </div>
+
+  <div *ngIf="isLoadingBookings"
+       class="loading-message">
+
+    Loading bookings...
+
+  </div>
+
+  <div *ngIf="bookingListError"
+       class="error-message">
+
+    {{ bookingListError }}
+
+  </div>
+
+  <div *ngIf="!isLoadingBookings &&
+           !bookingListError &&
+           bookings.length === 0"
+       class="empty-message">
+
+    You don't have any bookings yet.
+
+  </div>
+
+  <div *ngIf="bookings.length > 0"
+       class="booking-grid">
+
+    <div class="booking-card"
+         *ngFor="let booking of bookings">
+
+      <div class="booking-card-header">
+
+        <h3>
+          {{ booking.spaceNumber }}
+        </h3>
+
+        <span class="status"
+              [class.active]="booking.status === 'Active'"
+              [class.completed]="booking.status === 'Completed'">
+
+          {{ booking.status }}
+
+        </span>
+
+      </div>
+
+      <div class="booking-details">
+
+        <p>
+          <strong>Check-in:</strong>
+          {{ booking.checkInTime | date:'dd MMM yyyy, hh:mm a' }}
+        </p>
+
+        <p>
+          <strong>Check-out:</strong>
+
+          <span *ngIf="booking.checkOutTime">
+            {{ booking.checkOutTime | date:'dd MMM yyyy, hh:mm a' }}
+          </span>
+
+          <span *ngIf="!booking.checkOutTime">
+            —
+          </span>
+        </p>
+
+        <p>
+          <strong>Amount:</strong>
+
+          <span *ngIf="booking.amount !== null">
+            ₹{{ booking.amount }}
+          </span>
+
+          <span *ngIf="booking.amount === null">
+            —
+          </span>
+        </p>
+
+      </div>
+
+      <button *ngIf="booking.status === 'Active'"
+              type="button"
+              [disabled]="checkoutInProgressId === booking.id"
+              (click)="checkoutBooking(booking.id)">
+
+        {{
+          checkoutInProgressId === booking.id
+            ? 'Checking Out...'
+            : 'Check Out'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="subscriptions-section">
+
+  <div class="section-header">
+    <div>
+      <h2>My Subscriptions</h2>
+      <p>Your monthly parking subscriptions</p>
+    </div>
+  </div>
+
+  <div *ngIf="isLoadingSubscriptions"
+       class="loading-message">
+
+    Loading subscriptions...
+
+  </div>
+
+  <!--<div *ngIf="subscriptionError"
+       class="error-message">
+
+    {{ subscriptionError }}
+
+  </div>
+
+  <div *ngIf="subscriptionSuccess"
+       class="success-message">
+
+    {{ subscriptionSuccess }}
+
+  </div>-->
+
+  <div *ngIf="!isLoadingSubscriptions &&
+           !subscriptionError &&
+           subscriptions.length === 0"
+       class="empty-message">
+
+    You don't have any subscriptions yet.
+
+  </div>
+
+  <div *ngIf="subscriptions.length > 0"
+       class="subscription-grid">
+
+    <div class="subscription-card"
+         *ngFor="let subscription of subscriptions">
+
+      <div class="subscription-card-header">
+
+        <h3>
+          {{ subscription.spaceNumber }}
+        </h3>
+
+        <span class="status"
+              [class.active]="subscription.status === 'Active'"
+              [class.cancelled]="subscription.status === 'Cancelled'"
+              [class.expired]="subscription.status === 'Expired'">
+
+          {{ subscription.status }}
+
+        </span>
+
+      </div>
+
+      <div class="subscription-details">
+
+        <p>
+          <strong>Start Date:</strong>
+          {{ subscription.startDate | date:'dd MMM yyyy' }}
+        </p>
+
+        <p>
+          <strong>End Date:</strong>
+          {{ subscription.endDate | date:'dd MMM yyyy' }}
+        </p>
+
+        <p>
+          <strong>Amount:</strong>
+          ₹{{ subscription.amount }}
+        </p>
+
+      </div>
+
+      <button *ngIf="subscription.status === 'Active'"
+              type="button"
+              [disabled]="
+          cancellingSubscriptionId === subscription.id
+        "
+              (click)="cancelSubscription(subscription.id)">
+
+        {{
+          cancellingSubscriptionId === subscription.id
+            ? 'Cancelling...'
+            : 'Cancel Subscription'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
