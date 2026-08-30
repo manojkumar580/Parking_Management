@@ -3,7 +3,7 @@ using Parking_Management.Server.Models;
 
 namespace Parking_Management.Server.Data
 {
-    public class ParkingManagementDbContext :DbContext
+    public class ParkingManagementDbContext : DbContext
     {
         public ParkingManagementDbContext(DbContextOptions<ParkingManagementDbContext> options)
             : base(options)
@@ -98,6 +98,51 @@ namespace Parking_Management.Server.Data
                     .HasForeignKey(x => x.ParkingSpaceId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<ParkingSpace>().HasData(
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111001"),
+                    SpaceNumber = "2W-001",
+                    SpaceType = SpaceType.TwoWheeler,
+                    IsActive = true
+                },
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111002"),
+                    SpaceNumber = "2W-002",
+                    SpaceType = SpaceType.TwoWheeler,
+                    IsActive = true
+                },
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("11111111-1111-1111-1111-111111111003"),
+                    SpaceNumber = "2W-003",
+                    SpaceType = SpaceType.TwoWheeler,
+                    IsActive = true
+                },
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("22222222-2222-2222-2222-222222222001"),
+                    SpaceNumber = "4W-001",
+                    SpaceType = SpaceType.FourWheeler,
+                    IsActive = true
+                },
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("22222222-2222-2222-2222-222222222002"),
+                    SpaceNumber = "4W-002",
+                    SpaceType = SpaceType.FourWheeler,
+                    IsActive = true
+                },
+                new ParkingSpace
+                {
+                    Id = Guid.Parse("22222222-2222-2222-2222-222222222003"),
+                    SpaceNumber = "4W-003",
+                    SpaceType = SpaceType.FourWheeler,
+                    IsActive = true
+                }
+            );
         }
     }
 }
