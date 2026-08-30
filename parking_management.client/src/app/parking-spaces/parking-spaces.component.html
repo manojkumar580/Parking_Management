@@ -1,0 +1,151 @@
+<div class="page-header">
+
+  <div>
+    <h2>Parking Spaces</h2>
+    <p>Available parking spaces in the facility</p>
+  </div>
+
+</div>
+
+
+<div *ngIf="isLoadingParkingSpaces"
+     class="loading-message">
+
+  Loading parking spaces...
+
+</div>
+
+
+<div *ngIf="parkingSpaceError"
+     class="error-message">
+
+  {{ parkingSpaceError }}
+
+</div>
+
+
+<div *ngIf="bookingSuccess"
+     class="success-message">
+
+  {{ bookingSuccess }}
+
+</div>
+
+
+<div *ngIf="bookingError"
+     class="error-message">
+
+  {{ bookingError }}
+
+</div>
+
+
+<div *ngIf="subscriptionSuccess"
+     class="success-message">
+
+  {{ subscriptionSuccess }}
+
+</div>
+
+
+<div *ngIf="subscriptionError"
+     class="error-message">
+
+  {{ subscriptionError }}
+
+</div>
+
+
+<div *ngIf="!isLoadingParkingSpaces &&
+         !parkingSpaceError &&
+         parkingSpaces.length === 0"
+     class="empty-message">
+
+  No parking spaces found.
+
+</div>
+
+
+<div *ngIf="parkingSpaces.length > 0"
+     class="parking-grid">
+
+  <div class="parking-card"
+       *ngFor="let space of parkingSpaces">
+
+    <div class="parking-card-header">
+
+      <h3>
+        {{ space.spaceNumber }}
+      </h3>
+
+      <span class="status"
+            [class.available]="space.status === 'Available'"
+            [class.occupied]="space.status === 'Occupied'"
+            [class.reserved]="space.status === 'Reserved'"
+            [class.inactive]="space.status === 'Inactive'">
+
+        {{ space.status }}
+
+      </span>
+
+    </div>
+
+
+    <div class="parking-details">
+
+      <p>
+        <strong>Type:</strong>
+
+        {{
+          space.spaceType === 1
+            ? 'Two Wheeler'
+            : 'Four Wheeler'
+        }}
+
+      </p>
+
+    </div>
+
+
+    <div class="parking-actions">
+
+      <button type="button"
+              class="book-button"
+              [disabled]="
+    space.status !== 'Available' ||
+    bookingInProgressId === space.id
+    "
+              (click)="bookParkingSpace(space.id)">
+
+        {{
+      bookingInProgressId === space.id
+        ? 'Booking...'
+        : space.isActive
+          ? 'Book Now'
+          : 'Unavailable'
+        }}
+
+      </button>
+
+
+      <button type="button"
+              class="subscribe-button"
+              [disabled]="
+    space.status !== 'Available' ||
+    subscriptionInProgressId === space.id
+  "
+              (click)="subscribeParkingSpace(space.id)">
+
+        {{
+      subscriptionInProgressId === space.id
+        ? 'Subscribing...'
+        : 'Subscribe'
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,167 @@
+.page-header {
+  margin-bottom: 25px;
+}
+
+  .page-header h2 {
+    margin: 0 0 5px;
+    font-size: 24px;
+  }
+
+  .page-header p {
+    margin: 0;
+    color: #666;
+  }
+
+
+/* =========================
+   Subscription Grid
+   ========================= */
+
+.subscription-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+
+/* =========================
+   Subscription Card
+   ========================= */
+
+.subscription-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.subscription-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+  .subscription-card-header h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+
+/* =========================
+   Status
+   ========================= */
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+  .status.active {
+    background: #dff5e5;
+    color: #16803c;
+  }
+
+  .status.cancelled {
+    background: #fde2e2;
+    color: #b42318;
+  }
+
+  .status.expired {
+    background: #e8e8e8;
+    color: #555;
+  }
+
+
+/* =========================
+   Details
+   ========================= */
+
+.subscription-details {
+  margin-bottom: 20px;
+}
+
+  .subscription-details p {
+    margin: 10px 0;
+    color: #444;
+  }
+
+
+/* =========================
+   Cancel Button
+   ========================= */
+
+.cancel-button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: #d32f2f;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+  .cancel-button:hover:not(:disabled) {
+    background: #b71c1c;
+  }
+
+  .cancel-button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+
+/* =========================
+   Messages
+   ========================= */
+
+.loading-message,
+.empty-message {
+  text-align: center;
+  padding: 25px;
+  color: #666;
+}
+
+.error-message,
+.success-message {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border-radius: 6px;
+}
+
+.error-message {
+  background: #fde2e2;
+  color: #b42318;
+}
+
+.success-message {
+  background: #dff5e5;
+  color: #16803c;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 900px) {
+
+  .subscription-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .subscription-grid {
+    grid-template-columns: 1fr;
+  }
+}

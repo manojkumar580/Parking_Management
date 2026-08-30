@@ -1,0 +1,153 @@
+.page-header {
+  margin-bottom: 25px;
+}
+
+  .page-header h2 {
+    margin: 0 0 5px;
+    font-size: 24px;
+  }
+
+  .page-header p {
+    margin: 0;
+    color: #666;
+  }
+
+
+/* =========================
+   Booking Grid
+   ========================= */
+
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+
+/* =========================
+   Booking Card
+   ========================= */
+
+.booking-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   Header
+   ========================= */
+
+.booking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+  .booking-card-header h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+
+/* =========================
+   Status
+   ========================= */
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+  .status.active {
+    background: #dff5e5;
+    color: #16803c;
+  }
+
+  .status.completed {
+    background: #e8e8e8;
+    color: #555;
+  }
+
+
+/* =========================
+   Details
+   ========================= */
+
+.booking-details {
+  margin-bottom: 20px;
+}
+
+  .booking-details p {
+    margin: 10px 0;
+    color: #444;
+  }
+
+
+/* =========================
+   Checkout
+   ========================= */
+
+.checkout-button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+  .checkout-button:hover:not(:disabled) {
+    background: #1565c0;
+  }
+
+  .checkout-button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+
+/* =========================
+   Messages
+   ========================= */
+
+.loading-message,
+.empty-message {
+  text-align: center;
+  padding: 25px;
+  color: #666;
+}
+
+.error-message {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border-radius: 6px;
+  background: #fde2e2;
+  color: #b42318;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 900px) {
+
+  .booking-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+}

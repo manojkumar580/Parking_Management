@@ -1,506 +1,117 @@
-.parking-section {
-  margin-top: 35px;
+.dashboard {
+  min-height: 100vh;
+  background: #f5f7fa;
 }
 
-.section-header {
-  margin-bottom: 20px;
+
+/* =========================
+   Welcome Section
+   ========================= */
+
+.welcome-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-  .section-header h2 {
-    margin-bottom: 5px;
+  .welcome-section h2 {
+    margin: 0 0 6px;
+    font-size: 24px;
   }
 
-  .section-header p {
+  .welcome-section p {
+    margin: 0;
     color: #666;
-    margin: 0;
   }
 
-.parking-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.parking-card {
-  background: white;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-}
-
-.parking-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-  .parking-card-header h3 {
-    margin: 0;
-    font-size: 20px;
-  }
-
-.status {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-  .status.active {
-    background: #e5f7e9;
-    color: #2e7d32;
-  }
-
-  .status.inactive {
-    background: #ffe5e5;
-    color: #c62828;
-  }
-
-.parking-details {
-  color: #555;
-  margin-bottom: 20px;
-}
-
-  .parking-details p {
-    margin: 0;
-  }
-
-.parking-card button {
-  width: 100%;
-  padding: 11px;
-  border: none;
-  border-radius: 5px;
-  background: #1976d2;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-  .parking-card button:hover:not(:disabled) {
-    background: #1565c0;
-  }
-
-  .parking-card button:disabled {
-    background: #aaa;
-    cursor: not-allowed;
-  }
-
-.loading-message,
-.empty-message {
-  padding: 30px;
-  text-align: center;
-  color: #666;
-  background: white;
-  border-radius: 10px;
-}
-
-.error-message {
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  background: #ffe5e5;
-  color: #c62828;
-}
-
-@media (max-width: 900px) {
-  .parking-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .parking-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.success-message {
-  padding: 12px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  background: #e5f7e9;
-  color: #2e7d32;
-}
-
-.status {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-  .status.available {
-    background: #e8f5e9;
-    color: #2e7d32;
-  }
-
-  .status.occupied {
-    background: #ffebee;
-    color: #c62828;
-  }
-
-  .status.reserved {
-    background: #fff8e1;
-    color: #f57f17;
-  }
-
-  .status.inactive {
-    background: #eeeeee;
-    color: #616161;
-  }
 
 /* =========================
-   My Bookings
+   Logout
    ========================= */
 
-.bookings-section {
-  margin-top: 40px;
-  padding: 0 20px 40px;
-}
-
-  .bookings-section .section-header {
-    text-align: center;
-    margin-bottom: 25px;
-  }
-
-    .bookings-section .section-header h2 {
-      margin-bottom: 5px;
-    }
-
-    .bookings-section .section-header p {
-      margin: 0;
-      color: #666;
-    }
-
-
-/* Booking grid */
-
-.booking-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-
-/* Booking card */
-
-.booking-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-
-/* Header */
-
-.booking-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-  .booking-card-header h3 {
-    margin: 0;
-    font-size: 20px;
-  }
-
-
-/* Status */
-
-.booking-card .status {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-  .booking-card .status.active {
-    background: #dff5e5;
-    color: #16803c;
-  }
-
-  .booking-card .status.completed {
-    background: #e8e8e8;
-    color: #555;
-  }
-
-
-/* Details */
-
-.booking-details {
-  margin-bottom: 20px;
-}
-
-  .booking-details p {
-    margin: 10px 0;
-    color: #444;
-  }
-
-  .booking-details strong {
-    color: #222;
-  }
-
-
-/* Checkout button */
-
-.booking-card button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #1976d2;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-  .booking-card button:hover:not(:disabled) {
-    background: #1565c0;
-  }
-
-  .booking-card button:disabled {
-    background: #aaa;
-    cursor: not-allowed;
-  }
-
-
-/* Loading / empty / error */
-
-.loading-message,
-.empty-message {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-}
-
-.error-message {
-  margin: 15px 0;
-  padding: 12px;
-  border-radius: 6px;
-  background: #fde2e2;
-  color: #b42318;
-}
-
-.success-message {
-  margin: 15px 0;
-  padding: 12px;
-  border-radius: 6px;
-  background: #dff5e5;
-  color: #16803c;
-}
-
-
-/* Responsive */
-
-@media (max-width: 900px) {
-  .booking-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .booking-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .bookings-section {
-    padding: 0 10px 30px;
-  }
-}
-
-/* =========================
-   My Subscriptions
-   ========================= */
-
-.subscriptions-section {
-  margin-top: 40px;
-  padding: 0 20px 40px;
-}
-
-  .subscriptions-section .section-header {
-    text-align: center;
-    margin-bottom: 25px;
-  }
-
-    .subscriptions-section .section-header h2 {
-      margin-bottom: 5px;
-    }
-
-    .subscriptions-section .section-header p {
-      margin: 0;
-      color: #666;
-    }
-
-
-/* Subscription grid */
-
-.subscription-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-
-/* Subscription card */
-
-.subscription-card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-
-/* Header */
-
-.subscription-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-  .subscription-card-header h3 {
-    margin: 0;
-    font-size: 20px;
-  }
-
-
-/* Status */
-
-.subscription-card .status {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-}
-
-  .subscription-card .status.active {
-    background: #dff5e5;
-    color: #16803c;
-  }
-
-  .subscription-card .status.cancelled {
-    background: #fde2e2;
-    color: #b42318;
-  }
-
-  .subscription-card .status.expired {
-    background: #e8e8e8;
-    color: #555;
-  }
-
-
-/* Details */
-
-.subscription-details {
-  margin-bottom: 20px;
-}
-
-  .subscription-details p {
-    margin: 10px 0;
-    color: #444;
-  }
-
-  .subscription-details strong {
-    color: #222;
-  }
-
-
-/* Cancel button */
-
-.subscription-card button {
-  width: 100%;
-  padding: 10px;
+.logout-button {
+  padding: 9px 18px;
   border: none;
   border-radius: 6px;
   background: #d32f2f;
   color: white;
-  cursor: pointer;
   font-size: 14px;
+  cursor: pointer;
 }
 
-  .subscription-card button:hover:not(:disabled) {
+  .logout-button:hover {
     background: #b71c1c;
   }
 
-  .subscription-card button:disabled {
-    background: #aaa;
-    cursor: not-allowed;
-  }
-
-
-/* Responsive */
-
-@media (max-width: 900px) {
-  .subscription-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .subscription-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .subscriptions-section {
-    padding: 0 10px 30px;
-  }
-}
 
 /* =========================
-   Parking Actions
+   Navigation
    ========================= */
 
-.parking-actions {
+.dashboard-nav {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+  justify-content: center;
+  gap: 5px;
+  padding: 15px 20px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-  .parking-actions button {
-    width: 100%;
-    padding: 11px 15px;
-    border: none;
-    border-radius: 6px;
+  .dashboard-nav a {
+    padding: 11px 20px;
+    border-radius: 7px;
+    text-decoration: none;
+    color: #555;
     font-size: 14px;
-    cursor: pointer;
+    font-weight: 500;
     transition: 0.2s ease;
   }
 
+    .dashboard-nav a:hover {
+      background: #f1f5f9;
+      color: #1976d2;
+    }
 
-  /* Book Now */
-
-  .parking-actions .book-button {
-    background: #1976d2;
-    color: white;
-  }
-
-    .parking-actions .book-button:hover:not(:disabled) {
-      background: #1565c0;
+    .dashboard-nav a.active {
+      background: #1976d2;
+      color: white;
     }
 
 
-  /* Subscribe */
+/* =========================
+   Content
+   ========================= */
 
-  .parking-actions .subscribe-button {
-    background: #43a047;
-    color: white;
+.dashboard-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 35px 20px 50px;
+}
+
+
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 700px) {
+
+  .welcome-section {
+    padding: 20px;
   }
 
-    .parking-actions .subscribe-button:hover:not(:disabled) {
-      background: #388e3c;
+    .welcome-section h2 {
+      font-size: 20px;
     }
 
-
-  /* Disabled */
-
-  .parking-actions button:disabled {
-    background: #aaa;
-    color: white;
-    cursor: not-allowed;
-    opacity: 0.8;
+  .dashboard-nav {
+    overflow-x: auto;
+    justify-content: flex-start;
   }
+
+    .dashboard-nav a {
+      white-space: nowrap;
+    }
+}

@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login.component/login.component';
 import { RegisterComponent } from './register.component/register.component';
 import { DashboardComponent } from './dashboard.component/dashboard.component';
+import { ParkingSpacesComponent } from './parking-spaces/parking-spaces';
+import { BookingsComponent } from './bookings/bookings';
+import { SubscriptionsComponent } from './subscriptions/subscriptions';
 
 const routes: Routes = [
   {
@@ -15,7 +18,35 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    children: [
+
+      {
+        path: '',
+        redirectTo: 'parking',
+        pathMatch: 'full'
+      },
+
+      {
+        path: 'parking',
+        component: ParkingSpacesComponent
+      },
+
+      {
+        path: 'bookings',
+        component: BookingsComponent
+      },
+
+      {
+        path: 'subscriptions',
+        component: SubscriptionsComponent
+      }
+
+    ]
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard/parking'
   },
   {
     path: '',

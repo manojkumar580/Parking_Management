@@ -1,0 +1,116 @@
+<div class="page-header">
+
+  <div>
+    <h2>My Bookings</h2>
+    <p>Your parking booking history</p>
+  </div>
+
+</div>
+
+
+<div *ngIf="isLoadingBookings"
+     class="loading-message">
+
+  Loading bookings...
+
+</div>
+
+
+<div *ngIf="bookingListError"
+     class="error-message">
+
+  {{ bookingListError }}
+
+</div>
+
+
+<div *ngIf="!isLoadingBookings &&
+         !bookingListError &&
+         bookings.length === 0"
+     class="empty-message">
+
+  You don't have any bookings yet.
+
+</div>
+
+
+<div *ngIf="bookings.length > 0"
+     class="booking-grid">
+
+  <div class="booking-card"
+       *ngFor="let booking of bookings">
+
+    <div class="booking-card-header">
+
+      <h3>
+        {{ booking.spaceNumber }}
+      </h3>
+
+      <span class="status"
+            [class.active]="booking.status === 'Active'"
+            [class.completed]="booking.status === 'Completed'">
+
+        {{ booking.status }}
+
+      </span>
+
+    </div>
+
+
+    <div class="booking-details">
+
+      <p>
+        <strong>Check-in:</strong>
+
+        {{ booking.checkInTime | date:'dd MMM yyyy, hh:mm a' }}
+
+      </p>
+
+
+      <p>
+        <strong>Check-out:</strong>
+
+        <span *ngIf="booking.checkOutTime">
+          {{ booking.checkOutTime | date:'dd MMM yyyy, hh:mm a' }}
+        </span>
+
+        <span *ngIf="!booking.checkOutTime">
+          —
+        </span>
+
+      </p>
+
+
+      <p>
+        <strong>Amount:</strong>
+
+        <span *ngIf="booking.amount !== null">
+          ₹{{ booking.amount }}
+        </span>
+
+        <span *ngIf="booking.amount === null">
+          —
+        </span>
+
+      </p>
+
+    </div>
+
+
+    <button *ngIf="booking.status === 'Active'"
+            type="button"
+            class="checkout-button"
+            [disabled]="checkoutInProgressId === booking.id"
+            (click)="checkoutBooking(booking.id)">
+
+      {{
+        checkoutInProgressId === booking.id
+          ? 'Checking Out...'
+          : 'Check Out'
+      }}
+
+    </button>
+
+  </div>
+
+</div>
