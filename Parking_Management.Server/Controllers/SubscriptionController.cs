@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Parking_Management.Server.DTOs.Booking;
+using Parking_Management.Server.DTOs.Subscription;
 using Parking_Management.Server.Services;
 
 namespace Parking_Management.Server.Controllers;
@@ -8,18 +8,19 @@ namespace Parking_Management.Server.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
-public class BookingController : ControllerBase
+public class SubscriptionController : ControllerBase
 {
-    private readonly BookingService _bookingService;
+    private readonly SubscriptionService _subscriptionService;
 
-    public BookingController(BookingService bookingService)
+    public SubscriptionController(
+        SubscriptionService subscriptionService)
     {
-        _bookingService = bookingService;
+        _subscriptionService = subscriptionService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateBooking(
-    CreateBookingRequest request)
+    public async Task<IActionResult> CreateSubscription(
+    CreateSubscriptionRequest request)
     {
         try
         {
@@ -32,13 +33,14 @@ public class BookingController : ControllerBase
             }
 
             var result =
-                await _bookingService.CreateDayPassBookingAsync(
+                await _subscriptionService.CreateSubscriptionAsync(
                     request,
                     User);
 
             if (!result.Success)
             {
-                if (result.Error == "Parking space not found or inactive.")
+                if (result.Error ==
+                    "Parking space not found or inactive.")
                 {
                     return NotFound(new
                     {
@@ -47,9 +49,9 @@ public class BookingController : ControllerBase
                 }
 
                 if (result.Error ==
-                    "Parking space is already occupied by an active booking." ||
+                    "Parking space is already reserved by an active subscription." ||
                     result.Error ==
-                    "Parking space is reserved by an active subscription.")
+                    "Parking space is currently occupied by an active booking.")
                 {
                     return Conflict(new
                     {
@@ -65,40 +67,68 @@ public class BookingController : ControllerBase
 
             return StatusCode(
                 StatusCodes.Status201Created,
-                result.Booking);
+                result.Subscription);
         }
         catch (Exception)
         {
             return StatusCode(500, new
             {
                 message =
-                    "An unexpected error occurred while creating the booking."
+                    "An unexpected error occurred while creating the subscription."
             });
         }
     }
 
-
-    [HttpPost("{bookingId:guid}/checkout")]
-    public async Task<IActionResult> Checkout(Guid bookingId)
+    [HttpGet("my")]
+    public async Task<IActionResult> GetMySubscriptions()
     {
         try
         {
-            if (bookingId == Guid.Empty)
+            var result =
+                await _subscriptionService.GetMySubscriptionsAsync(User);
+
+            if (!result.Success)
             {
                 return BadRequest(new
                 {
-                    message = "Booking ID is required."
+                    message = result.Error
+                });
+            }
+
+            return Ok(result.Subscriptions);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, new
+            {
+                message =
+                    "An unexpected error occurred while retrieving subscriptions."
+            });
+        }
+    }
+
+    [HttpPost("{subscriptionId:guid}/cancel")]
+    public async Task<IActionResult> CancelSubscription(
+    Guid subscriptionId)
+    {
+        try
+        {
+            if (subscriptionId == Guid.Empty)
+            {
+                return BadRequest(new
+                {
+                    message = "Subscription ID is required."
                 });
             }
 
             var result =
-                await _bookingService.CheckoutBookingAsync(
-                    bookingId,
+                await _subscriptionService.CancelSubscriptionAsync(
+                    subscriptionId,
                     User);
 
             if (!result.Success)
             {
-                if (result.Error == "Booking not found.")
+                if (result.Error == "Subscription not found.")
                 {
                     return NotFound(new
                     {
@@ -106,7 +136,8 @@ public class BookingController : ControllerBase
                     });
                 }
 
-                if (result.Error == "Booking is not active.")
+                if (result.Error ==
+                    "Only an active subscription can be cancelled.")
                 {
                     return Conflict(new
                     {
@@ -120,40 +151,14 @@ public class BookingController : ControllerBase
                 });
             }
 
-            return Ok(result.Booking);
+            return Ok(result.Subscription);
         }
         catch (Exception)
         {
             return StatusCode(500, new
             {
                 message =
-                    "An unexpected error occurred while checking out."
-            });
-        }
-    }
-
-    [HttpGet("my")]
-    public async Task<IActionResult> GetMyBookings()
-    {
-        try
-        {
-            var result = await _bookingService.GetMyBookingsAsync(User);
-
-            if (!result.Success)
-            {
-                return BadRequest(new
-                {
-                    message = result.Error
-                });
-            }
-
-            return Ok(result.Bookings);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500, new
-            {
-                message = "An unexpected error occurred while retrieving bookings."
+                    "An unexpected error occurred while cancelling the subscription."
             });
         }
     }

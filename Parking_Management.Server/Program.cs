@@ -27,6 +27,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<JwtService>();
 builder.Services.AddTransient<BookingService>();
+builder.Services.AddTransient<SubscriptionService>();
 
 var jwtSecretKey = builder.Configuration["Jwt:SecretKey"];
 

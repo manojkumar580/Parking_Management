@@ -9,10 +9,12 @@ namespace Parking_Management.Server.Services;
 public class BookingService
 {
     private readonly ParkingManagementDbContext _context;
+    private readonly IConfiguration _configuration;
 
-    public BookingService(ParkingManagementDbContext context)
+    public BookingService(ParkingManagementDbContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
 
     public async Task<(bool Success, string? Error, BookingResponse? Booking)>
@@ -39,14 +41,29 @@ public class BookingService
                 return (false, "Parking space not found or inactive.", null);
             }
 
-            var spaceAlreadyOccupied = await _context.Bookings
+            var spaceHasActiveBooking = await _context.Bookings
+            .AnyAsync(x =>
+                x.ParkingSpaceId == request.ParkingSpaceId &&
+                x.Status == BookingStatus.Active);
+
+            if (spaceHasActiveBooking)
+            {
+                return (false, "Parking space is already occupied by an active booking.", null);
+            }
+
+            var spaceHasActiveSubscription = await _context.Subscriptions
                 .AnyAsync(x =>
                     x.ParkingSpaceId == request.ParkingSpaceId &&
-                    x.Status == BookingStatus.Active);
+                    x.Status == SubscriptionStatus.Active &&
+                    x.StartDate <= DateTime.UtcNow &&
+                    x.EndDate > DateTime.UtcNow);
 
-            if (spaceAlreadyOccupied)
+            if (spaceHasActiveSubscription)
             {
-                return (false, "Parking space is already occupied.", null);
+                return (
+                    false,
+                    "Parking space is reserved by an active subscription.",
+                    null);
             }
 
             var booking = new Booking
@@ -129,11 +146,35 @@ public class BookingService
             var totalHours = (int)Math.Ceiling(
                 duration.TotalHours);
 
+            var first24HoursRate =
+                _configuration.GetValue<decimal>(
+                    "ParkingPricing:First24HoursRate");
+
+            var after24HoursRate =
+                _configuration.GetValue<decimal>(
+                    "ParkingPricing:After24HoursRate");
+
+            if (first24HoursRate <= 0)
+            {
+                return (
+                    false,
+                    "First 24 hours parking rate is not configured correctly.",
+                    null);
+            }
+
+            if (after24HoursRate <= 0)
+            {
+                return (
+                    false,
+                    "After 24 hours parking rate is not configured correctly.",
+                    null);
+            }
+
             decimal amount;
 
             if (duration.TotalHours <= 24)
             {
-                amount = totalHours * 50m;
+                amount = totalHours * first24HoursRate;
             }
             else
             {
@@ -143,8 +184,8 @@ public class BookingService
                     totalHours - first24Hours;
 
                 amount =
-                    (first24Hours * 50m) +
-                    (remainingHours * 75m);
+                    (first24Hours * first24HoursRate) +
+                    (remainingHours * after24HoursRate);
             }
 
             booking.CheckOutTime = checkOutTime;
