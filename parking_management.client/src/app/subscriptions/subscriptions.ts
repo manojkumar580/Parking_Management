@@ -57,6 +57,9 @@ export class SubscriptionsComponent implements OnInit {
           );
 
           this.subscriptions = subscriptions;
+          this.subscriptions.forEach(x => {
+            x.createdAt = new Date(x.createdAt + 'Z').toString()
+          })
 
           this.isLoadingSubscriptions = false;
 
