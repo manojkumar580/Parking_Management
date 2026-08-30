@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="parking_management.client/parking_management.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Parking_Management.Server/Parking_Management.Server.csproj" />
+</Solution>
