@@ -105,43 +105,44 @@
         </p>
 
       </div>
-
-      <button type="button"
-              [disabled]="
+      <div class="parking-actions">
+        <button type="button"
+                [disabled]="
     space.status !== 'Available' ||
     bookingInProgressSpaceId === space.id
   "
-              (click)="bookParkingSpace(space.id)">
+                (click)="bookParkingSpace(space.id)">
 
-        {{
+          {{
     bookingInProgressSpaceId === space.id
       ? 'Booking...'
       : space.status === 'Available'
         ? 'Book Now'
         : space.status
-        }}
+          }}
 
-      </button>
-      <button type="button"
-              [disabled]="
+        </button>
+        <button type="button"
+                [disabled]="
     space.status !== 'Available' ||
     subscriptionInProgressSpaceId === space.id
   "
-              (click)="createSubscription(space.id)">
+                (click)="createSubscription(space.id)">
 
-        {{
+          {{
     subscriptionInProgressSpaceId === space.id
       ? 'Subscribing...'
       : space.status === 'Available'
         ? 'Subscribe'
         : space.status
-        }}
+          }}
 
-      </button>
+        </button>
+
+      </div>
+      </div>
 
     </div>
-
-  </div>
 
 </div>
 
@@ -157,7 +158,7 @@
   <div *ngIf="isLoadingBookings"
        class="loading-message">
 
-    Loading your bookings...
+    Loading bookings...
 
   </div>
 
@@ -170,30 +171,32 @@
 
   <div *ngIf="!isLoadingBookings &&
            !bookingListError &&
-           myBookings.length === 0"
+           bookings.length === 0"
        class="empty-message">
 
     You don't have any bookings yet.
 
   </div>
 
-  <div *ngIf="myBookings.length > 0"
-       class="bookings-list">
+  <div *ngIf="bookings.length > 0"
+       class="booking-grid">
 
     <div class="booking-card"
-         *ngFor="let booking of myBookings">
+         *ngFor="let booking of bookings">
 
-      <div class="booking-header">
+      <div class="booking-card-header">
 
-        <div>
-          <h3>
-            {{ booking.spaceNumber }}
-          </h3>
+        <h3>
+          {{ booking.spaceNumber }}
+        </h3>
 
-          <span>
-            {{ booking.status }}
-          </span>
-        </div>
+        <span class="status"
+              [class.active]="booking.status === 'Active'"
+              [class.completed]="booking.status === 'Completed'">
+
+          {{ booking.status }}
+
+        </span>
 
       </div>
 
@@ -201,25 +204,47 @@
 
         <p>
           <strong>Check-in:</strong>
-          {{ booking.checkInTime | date:'medium' }}
+          {{ booking.checkInTime | date:'dd MMM yyyy, hh:mm a' }}
         </p>
 
-        <p *ngIf="booking.checkOutTime">
+        <p>
           <strong>Check-out:</strong>
-          {{ booking.checkOutTime | date:'medium' }}
+
+          <span *ngIf="booking.checkOutTime">
+            {{ booking.checkOutTime | date:'dd MMM yyyy, hh:mm a' }}
+          </span>
+
+          <span *ngIf="!booking.checkOutTime">
+            —
+          </span>
         </p>
 
         <p>
           <strong>Amount:</strong>
 
-          {{
-            booking.amount !== null
-              ? ('₹' + booking.amount)
-              : 'Not calculated'
-          }}
+          <span *ngIf="booking.amount !== null">
+            ₹{{ booking.amount }}
+          </span>
+
+          <span *ngIf="booking.amount === null">
+            —
+          </span>
         </p>
 
       </div>
+
+      <button *ngIf="booking.status === 'Active'"
+              type="button"
+              [disabled]="checkoutInProgressId === booking.id"
+              (click)="checkoutBooking(booking.id)">
+
+        {{
+          checkoutInProgressId === booking.id
+            ? 'Checking Out...'
+            : 'Check Out'
+        }}
+
+      </button>
 
     </div>
 

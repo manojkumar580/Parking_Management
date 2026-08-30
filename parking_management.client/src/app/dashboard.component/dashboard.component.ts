@@ -36,6 +36,9 @@ export class DashboardComponent implements OnInit {
   subscriptionSuccess = '';
   cancellingSubscriptionId: string | null = null;
 
+  bookings: Booking[] = [];
+  checkoutInProgressId: string | null = null;
+
   constructor(
     private router: Router,
     private parkingSpaceService: ParkingSpaceService,
@@ -327,29 +330,92 @@ export class DashboardComponent implements OnInit {
     this.isLoadingBookings = true;
     this.bookingListError = '';
 
+    console.log('Calling my bookings API...');
+
     this.bookingService.getMyBookings()
       .pipe(
         finalize(() => {
+          console.log(
+            'My bookings API request completed'
+          );
+
           this.isLoadingBookings = false;
           this.cdr.detectChanges();
         })
       )
       .subscribe({
         next: (bookings) => {
-          console.log('My bookings received:', bookings);
+          console.log(
+            'My bookings received:',
+            bookings
+          );
 
-          this.myBookings = bookings;
+          this.bookings = bookings;
+
+          this.cdr.detectChanges();
         },
 
         error: (error) => {
           console.error(
-            'Error loading bookings:',
+            'My bookings API error:',
             error
           );
 
           this.bookingListError =
             error?.error?.message ??
+            error?.error?.detail ??
             'Unable to load your bookings.';
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  checkoutBooking(bookingId: string): void {
+    this.bookingError = '';
+    this.bookingSuccess = '';
+
+    if (this.checkoutInProgressId !== null) {
+      return;
+    }
+
+    this.checkoutInProgressId = bookingId;
+
+    this.bookingService.checkoutBooking(bookingId)
+      .pipe(
+        finalize(() => {
+          this.checkoutInProgressId = null;
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: (booking) => {
+          console.log(
+            'Checkout successful:',
+            booking
+          );
+
+          this.bookingSuccess =
+            `Parking space ${booking.spaceNumber} checked out successfully. Amount: ₹${booking.amount}`;
+
+          this.loadMyBookings();
+          this.loadParkingSpaces();
+
+          this.cdr.detectChanges();
+        },
+
+        error: (error) => {
+          console.error(
+            'Checkout API error:',
+            error
+          );
+
+          this.bookingError =
+            error?.error?.message ??
+            error?.error?.detail ??
+            'Unable to checkout booking.';
+
+          this.cdr.detectChanges();
         }
       });
   }
