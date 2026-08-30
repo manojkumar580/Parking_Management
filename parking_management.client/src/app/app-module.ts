@@ -1,4 +1,4 @@
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -9,16 +9,17 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './register.component/register.component';
+import { DashboardComponent } from './dashboard.component/dashboard.component';
 
 @NgModule({
   declarations: [
     App,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     AppRoutingModule,
     CommonModule

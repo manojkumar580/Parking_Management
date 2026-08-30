@@ -16,6 +16,8 @@ public class ParkingSpaceService
 
     public async Task<List<ParkingSpaceDto>> GetAllAsync()
     {
+        var now = DateTime.UtcNow;
+
         return await _context.ParkingSpaces
             .AsNoTracking()
             .Select(x => new ParkingSpaceDto
@@ -23,13 +25,27 @@ public class ParkingSpaceService
                 Id = x.Id,
                 SpaceNumber = x.SpaceNumber,
                 SpaceType = x.SpaceType,
-                IsActive = x.IsActive
+                IsActive = x.IsActive,
+
+                Status = !x.IsActive
+                    ? "Inactive"
+                    : x.Bookings.Any(b =>
+                        b.Status == BookingStatus.Active)
+                        ? "Occupied"
+                        : x.Subscriptions.Any(s =>
+                            s.Status == SubscriptionStatus.Active &&
+                            s.StartDate <= now &&
+                            s.EndDate > now)
+                            ? "Reserved"
+                            : "Available"
             })
             .ToListAsync();
     }
 
     public async Task<ParkingSpaceDto?> GetByIdAsync(Guid id)
     {
+        var now = DateTime.UtcNow;
+
         return await _context.ParkingSpaces
             .AsNoTracking()
             .Where(x => x.Id == id)
@@ -38,7 +54,19 @@ public class ParkingSpaceService
                 Id = x.Id,
                 SpaceNumber = x.SpaceNumber,
                 SpaceType = x.SpaceType,
-                IsActive = x.IsActive
+                IsActive = x.IsActive,
+
+                Status = !x.IsActive
+                    ? "Inactive"
+                    : x.Bookings.Any(b =>
+                        b.Status == BookingStatus.Active)
+                        ? "Occupied"
+                        : x.Subscriptions.Any(s =>
+                            s.Status == SubscriptionStatus.Active &&
+                            s.StartDate <= now &&
+                            s.EndDate > now)
+                            ? "Reserved"
+                            : "Available"
             })
             .FirstOrDefaultAsync();
     }
@@ -55,6 +83,7 @@ public class ParkingSpaceService
         };
 
         _context.ParkingSpaces.Add(parkingSpace);
+
         await _context.SaveChangesAsync();
 
         return new ParkingSpaceDto
@@ -62,7 +91,8 @@ public class ParkingSpaceService
             Id = parkingSpace.Id,
             SpaceNumber = parkingSpace.SpaceNumber,
             SpaceType = parkingSpace.SpaceType,
-            IsActive = parkingSpace.IsActive
+            IsActive = parkingSpace.IsActive,
+            Status = "Available"
         };
     }
 

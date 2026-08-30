@@ -1,0 +1,150 @@
+.parking-section {
+  margin-top: 35px;
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+  .section-header h2 {
+    margin-bottom: 5px;
+  }
+
+  .section-header p {
+    color: #666;
+    margin: 0;
+  }
+
+.parking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.parking-card {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.parking-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+  .parking-card-header h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+  .status.active {
+    background: #e5f7e9;
+    color: #2e7d32;
+  }
+
+  .status.inactive {
+    background: #ffe5e5;
+    color: #c62828;
+  }
+
+.parking-details {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+  .parking-details p {
+    margin: 0;
+  }
+
+.parking-card button {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-radius: 5px;
+  background: #1976d2;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+  .parking-card button:hover:not(:disabled) {
+    background: #1565c0;
+  }
+
+  .parking-card button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+
+.loading-message,
+.empty-message {
+  padding: 30px;
+  text-align: center;
+  color: #666;
+  background: white;
+  border-radius: 10px;
+}
+
+.error-message {
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background: #ffe5e5;
+  color: #c62828;
+}
+
+@media (max-width: 900px) {
+  .parking-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .parking-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.success-message {
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  background: #e5f7e9;
+  color: #2e7d32;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+  .status.available {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  .status.occupied {
+    background: #ffebee;
+    color: #c62828;
+  }
+
+  .status.reserved {
+    background: #fff8e1;
+    color: #f57f17;
+  }
+
+  .status.inactive {
+    background: #eeeeee;
+    color: #616161;
+  }
