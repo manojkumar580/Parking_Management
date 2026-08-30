@@ -103,10 +103,6 @@ export class BookingsComponent implements OnInit {
 
           this.checkoutInProgressId = null;
 
-          /*
-           * Reload bookings so the updated
-           * status/check-out time is displayed.
-           */
           this.loadBookings();
 
           this.changeDetectorRef.detectChanges();
