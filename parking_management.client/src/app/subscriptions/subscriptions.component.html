@@ -1,0 +1,162 @@
+<div class="page-header">
+
+  <div>
+    <h2>My Subscriptions</h2>
+
+    <p>
+      Your parking subscription history
+    </p>
+  </div>
+
+</div>
+
+
+<!-- Loading -->
+
+<div *ngIf="isLoadingSubscriptions"
+     class="loading-message">
+
+  Loading subscriptions...
+
+</div>
+
+
+<!-- Error -->
+
+<div *ngIf="subscriptionError"
+     class="error-message">
+
+  {{ subscriptionError }}
+
+</div>
+
+
+<!-- Success -->
+
+<div *ngIf="cancelSuccess"
+     class="success-message">
+
+  {{ cancelSuccess }}
+
+</div>
+
+
+<!-- Empty -->
+
+<div *ngIf="
+    !isLoadingSubscriptions &&
+    !subscriptionError &&
+    subscriptions.length === 0
+  "
+     class="empty-message">
+
+  You don't have any subscriptions yet.
+
+</div>
+
+
+<!-- Subscription Cards -->
+
+<div *ngIf="subscriptions.length > 0"
+     class="subscription-grid">
+
+  <div class="subscription-card"
+       *ngFor="let subscription of subscriptions">
+
+
+    <!-- Header -->
+
+    <div class="subscription-card-header">
+
+      <h3>
+        {{ subscription.spaceNumber }}
+      </h3>
+
+
+      <span class="status"
+            [class.active]="subscription.status === 'Active'"
+            [class.cancelled]="subscription.status === 'Cancelled'"
+            [class.expired]="subscription.status === 'Expired'">
+
+        {{ subscription.status }}
+
+      </span>
+
+    </div>
+
+
+    <!-- Details -->
+
+    <div class="subscription-details">
+
+      <p>
+
+        <strong>Start Date:</strong>
+
+        {{
+          subscription.startDate
+            | date:'dd MMM yyyy'
+        }}
+
+      </p>
+
+
+      <p>
+
+        <strong>End Date:</strong>
+
+        {{
+          subscription.endDate
+            | date:'dd MMM yyyy'
+        }}
+
+      </p>
+
+
+      <p>
+
+        <strong>Amount:</strong>
+
+        ₹{{ subscription.amount }}
+
+      </p>
+
+
+      <p>
+
+        <strong>Created:</strong>
+
+        {{
+          subscription.createdAt
+            | date:'dd MMM yyyy, hh:mm a'
+        }}
+
+      </p>
+
+    </div>
+
+
+    <!-- Cancel -->
+
+    <button *ngIf="subscription.status === 'Active'"
+            type="button"
+            class="cancel-button"
+            [disabled]="
+        cancelInProgressId === subscription.id
+      "
+            (click)="
+        cancelSubscription(subscription.id)
+      ">
+
+      {{
+        cancelInProgressId === subscription.id
+          ? 'Cancelling...'
+          : 'Cancel Subscription'
+      }}
+
+    </button>
+
+
+  </div>
+
+</div>

@@ -10,13 +10,19 @@ import { CommonModule } from '@angular/common';
 import { authInterceptor } from './interceptors/auth.interceptor';
 import { RegisterComponent } from './register.component/register.component';
 import { DashboardComponent } from './dashboard.component/dashboard.component';
+import { ParkingSpacesComponent } from './parking-spaces/parking-spaces';
+import { SubscriptionsComponent } from './subscriptions/subscriptions';
+import { BookingsComponent } from './bookings/bookings';
 
 @NgModule({
   declarations: [
     App,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    ParkingSpacesComponent,
+    BookingsComponent,
+    SubscriptionsComponent
   ],
   imports: [
     BrowserModule,
