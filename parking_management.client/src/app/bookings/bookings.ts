@@ -55,6 +55,10 @@ export class BookingsComponent implements OnInit {
           );
 
           this.bookings = bookings;
+          this.bookings.forEach(x => {
+            x.checkInTime = new Date(x.checkInTime + 'Z').toString()
+            x.checkOutTime != null ? x.checkOutTime = new Date(x.checkOutTime + 'Z').toString() : x.checkOutTime
+          })
 
           this.isLoadingBookings = false;
 
