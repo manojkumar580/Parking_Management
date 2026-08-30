@@ -115,10 +115,6 @@ export class SubscriptionsComponent implements OnInit {
           this.cancelSuccess =
             'Subscription cancelled successfully.';
 
-          /*
-           * Refresh the list so the updated
-           * subscription status is displayed.
-           */
           this.loadSubscriptions();
 
           this.changeDetectorRef.detectChanges();
