@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Parking_Management.Server.DTOs.ParkingSpaces;
 using Parking_Management.Server.Services;
 
@@ -6,6 +7,7 @@ namespace Parking_Management.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ParkingSpacesController : ControllerBase
 {
     private readonly ParkingSpaceService _service;

@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace Parking_Management.Server.Models
+﻿namespace Parking_Management.Server.Models
 {
     public class User
     {
