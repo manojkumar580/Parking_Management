@@ -26,6 +26,7 @@ builder.Services.AddTransient<ParkingSpaceService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<JwtService>();
+builder.Services.AddTransient<BookingService>();
 
 var jwtSecretKey = builder.Configuration["Jwt:SecretKey"];
 
