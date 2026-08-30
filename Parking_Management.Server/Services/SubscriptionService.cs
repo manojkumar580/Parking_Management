@@ -24,6 +24,8 @@ public class SubscriptionService
     {
         try
         {
+            await UpdateExpiredSubscriptionsAsync();
+
             var userIdClaim =
                 user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -132,6 +134,7 @@ public class SubscriptionService
     {
         try
         {
+            await UpdateExpiredSubscriptionsAsync();
             var userIdClaim =
                 user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -223,6 +226,38 @@ public class SubscriptionService
         {
             throw new InvalidOperationException(
                 "An error occurred while cancelling the subscription.",
+                ex);
+        }
+    }
+
+    private async Task UpdateExpiredSubscriptionsAsync()
+    {
+        try
+        {
+            var currentTime = DateTime.UtcNow;
+
+            var expiredSubscriptions = await _context.Subscriptions
+                .Where(x =>
+                    x.Status == SubscriptionStatus.Active &&
+                    x.EndDate <= currentTime)
+                .ToListAsync();
+
+            if (expiredSubscriptions.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var subscription in expiredSubscriptions)
+            {
+                subscription.Status = SubscriptionStatus.Expired;
+            }
+
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException(
+                "An error occurred while updating expired subscriptions.",
                 ex);
         }
     }
