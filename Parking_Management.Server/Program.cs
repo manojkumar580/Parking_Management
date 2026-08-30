@@ -25,6 +25,10 @@ app.MapStaticAssets();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "Parking Management API");
+    });
 }
 
 app.UseHttpsRedirection();
