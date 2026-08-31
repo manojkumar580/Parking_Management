@@ -20,7 +20,7 @@
      class="error-message">
 
   {{ parkingSpaceError }}
-
+  <span class="close-button">X</span>
 </div>
 
 
@@ -28,6 +28,7 @@
      class="success-message">
 
   {{ bookingSuccess }}
+  <span class="close-button" (click)="bookingSuccess = ''">X</span>
 
 </div>
 
@@ -36,6 +37,7 @@
      class="error-message">
 
   {{ bookingError }}
+  <span class="close-button" (click)="bookingError = ''">X</span>
 
 </div>
 
@@ -44,6 +46,7 @@
      class="success-message">
 
   {{ subscriptionSuccess }}
+  <span class="close-button" (click)="subscriptionSuccess = ''">X</span>
 
 </div>
 
@@ -52,6 +55,7 @@
      class="error-message">
 
   {{ subscriptionError }}
+  <span class="close-button" (click)="subscriptionError = ''">X</span>
 
 </div>
 

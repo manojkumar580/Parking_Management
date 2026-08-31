@@ -13,6 +13,10 @@ import { DashboardComponent } from './dashboard.component/dashboard.component';
 import { ParkingSpacesComponent } from './parking-spaces/parking-spaces';
 import { SubscriptionsComponent } from './subscriptions/subscriptions';
 import { BookingsComponent } from './bookings/bookings';
+import { ManageBookingsComponent } from './admin/manage-bookings.component/manage-bookings.component';
+import { ManageSubscriptionsComponent } from './admin/manage-subscriptions.component/manage-subscriptions.component';
+import { ManageUsersComponent } from './admin/manage-users.component/manage-users.component';
+import { Admin } from './admin/admin';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { BookingsComponent } from './bookings/bookings';
     DashboardComponent,
     ParkingSpacesComponent,
     BookingsComponent,
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    ManageBookingsComponent,
+    ManageSubscriptionsComponent,
+    ManageUsersComponent,
+    Admin
   ],
   imports: [
     BrowserModule,

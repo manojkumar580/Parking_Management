@@ -97,6 +97,30 @@ export class ParkingSpacesComponent implements OnInit {
 
   }
 
+  refreshParkingSpaces(): void {
+
+    this.parkingSpaceService
+      .getAll()
+      .subscribe({
+
+        next: (spaces) => {
+
+          this.parkingSpaces = spaces;
+
+          this.changeDetectorRef.detectChanges();
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Unable to refresh parking spaces:',
+            error
+          );
+
+        }
+
+      });
+  }
 
   bookParkingSpace(spaceId: string): void {
 
@@ -131,7 +155,7 @@ export class ParkingSpacesComponent implements OnInit {
           this.bookingSuccess =
             `Parking space ${booking.spaceNumber} booked successfully.`;
 
-          this.loadParkingSpaces();
+          this.refreshParkingSpaces();
 
           this.changeDetectorRef.detectChanges();
         },
@@ -190,7 +214,7 @@ export class ParkingSpacesComponent implements OnInit {
           this.subscriptionSuccess =
             `Parking space ${subscription.spaceNumber} subscribed successfully.`;
 
-          this.loadParkingSpaces();
+          this.refreshParkingSpaces();
           this.changeDetectorRef.detectChanges();
         },
 

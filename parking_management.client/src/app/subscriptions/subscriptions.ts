@@ -86,6 +86,27 @@ export class SubscriptionsComponent implements OnInit {
 
   }
 
+  refreshSubscription(): void {
+    this.subscriptionService
+      .getMySubscriptions()
+      .subscribe({
+        next: (subscriptions) => {
+          this.subscriptions = subscriptions;
+          this.subscriptions.forEach(x => {
+            x.createdAt = new Date(x.createdAt + 'Z').toString()
+          })
+
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (error) => {
+          this.subscriptionError =
+            error?.error?.message ??
+            'Unable to load your subscriptions.';
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+  }
+
 
   cancelSubscription(
     subscriptionId: string
@@ -118,7 +139,7 @@ export class SubscriptionsComponent implements OnInit {
           this.cancelSuccess =
             'Subscription cancelled successfully.';
 
-          this.loadSubscriptions();
+          this.refreshSubscription();
 
           this.changeDetectorRef.detectChanges();
         },

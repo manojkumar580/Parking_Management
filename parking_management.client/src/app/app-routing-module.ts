@@ -6,6 +6,10 @@ import { DashboardComponent } from './dashboard.component/dashboard.component';
 import { ParkingSpacesComponent } from './parking-spaces/parking-spaces';
 import { BookingsComponent } from './bookings/bookings';
 import { SubscriptionsComponent } from './subscriptions/subscriptions';
+import { Admin } from './admin/admin';
+import { ManageBookingsComponent } from './admin/manage-bookings.component/manage-bookings.component';
+import { ManageSubscriptionsComponent } from './admin/manage-subscriptions.component/manage-subscriptions.component';
+import { ManageUsersComponent } from './admin/manage-users.component/manage-users.component';
 
 const routes: Routes = [
   {
@@ -42,6 +46,29 @@ const routes: Routes = [
         component: SubscriptionsComponent
       }
 
+    ]
+  },
+  {
+    path: 'admin',
+    component: Admin,
+    children: [
+      {
+        path: '',
+        redirectTo: 'manage-bookings',
+        pathMatch:'full'
+      },
+      {
+        path: 'manage-bookings',
+        component:ManageBookingsComponent
+      },
+      {
+        path: 'manage-subscription',
+        component:ManageSubscriptionsComponent
+      },
+      {
+        path: 'manage-users',
+        component:ManageUsersComponent
+      }
     ]
   },
   {
