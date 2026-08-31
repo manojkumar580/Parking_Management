@@ -135,6 +135,8 @@
   margin-bottom: 20px;
   padding: 12px 15px;
   border-radius: 6px;
+  position: absolute;
+  align-self: end;
 }
 
 .error-message {
@@ -147,6 +149,12 @@
   color: #16803c;
 }
 
+.close-button {
+  cursor: pointer;
+  margin-left: 5px;
+  color: black;
+  font-size: 15px
+}
 
 /* =========================
    Responsive

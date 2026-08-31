@@ -85,6 +85,29 @@ export class BookingsComponent implements OnInit {
 
   }
 
+  refreshBookings(): void {
+    this.bookingService
+      .getMyBookings()
+      .subscribe({
+        next: (bookings) => {
+          this.bookings = bookings;
+          this.bookings.forEach(x => {
+            x.checkInTime = new Date(x.checkInTime + 'Z').toString()
+            x.checkOutTime != null ? x.checkOutTime = new Date(x.checkOutTime + 'Z').toString() : x.checkOutTime
+          })
+
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (error) => {
+          this.bookingListError =
+            error?.error?.message ??
+            'Unable to load your bookings.';
+
+          this.changeDetectorRef.detectChanges();
+        }
+      })
+  }
+
 
   checkoutBooking(bookingId: string): void {
 
@@ -107,7 +130,7 @@ export class BookingsComponent implements OnInit {
 
           this.checkoutInProgressId = null;
 
-          this.loadBookings();
+          this.refreshBookings();
 
           this.changeDetectorRef.detectChanges();
         },
